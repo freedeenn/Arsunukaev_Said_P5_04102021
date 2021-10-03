@@ -1,14 +1,27 @@
 // appel de l'API
 const url = 'http://localhost:3000/api/products';
 
+/*
+ * product = {
+    id: ObjectID
+    name: string
+    price: number
+    description: string
+    imageUrl: string
+ }
+ * 
+*/
+
 function generateProductHTML(kanap){
 
-
+//Selectionner la div qui va contenir le outerHTML du container
     let container = document.querySelector('.items')
 
+//Création de la balise article et ajout d'une classe
     let article = document.createElement('article')
     article.className = 'kanap-container'
 
+//Child de l'article
     let image = document.createElement('div');
     image.className = 'kanap';
     let info = document.createElement('div');
@@ -17,6 +30,7 @@ function generateProductHTML(kanap){
     a.className = 'btnShow';
     a.setAttribute('href', `products.html?id=${kanap._id}`);
 
+//Child des autres balises    
     let img = document.createElement('img');
     img.className = 'kanap-pic';
     img.setAttribute('src', kanap.imageUrl);
@@ -43,9 +57,9 @@ function generateProductHTML(kanap){
 }
 
 function handleProductsData(products) {
-    // parcourir les produits
+// parcourir les produits
     products.forEach(kanap => {
-        // afficher les produits
+// afficher les produits
         generateProductHTML(kanap);
     });
 }
