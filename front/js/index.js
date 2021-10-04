@@ -2,12 +2,14 @@
 const url = 'http://localhost:3000/api/products';
 
 /*
- * product = {
+ * kanap = {
     id: ObjectID
     name: string
     price: number
     description: string
     imageUrl: string
+    altText: string
+    colors: [string]
  }
  * 
 */
@@ -27,8 +29,7 @@ function generateProductHTML(kanap){
     let info = document.createElement('div');
     info.className = 'kanap-info';
     let a = document.createElement('a');
-    a.className = 'btnShow';
-    a.setAttribute('href', `products.html?id=${kanap._id}`);
+    a.setAttribute('href', `product.html?id=${kanap._id}`);
 
 //Child des autres balises    
     let img = document.createElement('img');
@@ -50,10 +51,10 @@ function generateProductHTML(kanap){
     info.appendChild(span);
     article.appendChild(image);
     article.appendChild(info);
-    article.appendChild(a);
     article.appendChild(p);
+    a.appendChild(article);
 
-    container.appendChild(article);
+    container.appendChild(a);
 }
 
 function handleProductsData(products) {
