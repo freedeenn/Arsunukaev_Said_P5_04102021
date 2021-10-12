@@ -35,6 +35,7 @@ function generateProductHTML(kanap){
     let img = document.createElement('img');
     img.className = 'kanap-pic';
     img.setAttribute('src', kanap.imageUrl);
+    img.setAttribute("alt",`image ${kanap.name}`);
     let h2 = document.createElement('h2');
     h2.className = 'kanap-name';
     h2.innerText = kanap.name;
@@ -43,7 +44,7 @@ function generateProductHTML(kanap){
     p.innerText = kanap.description;
     let span = document.createElement('span');
     span.className = 'price';
-    span.innerText = `${(kanap.price/1).toFixed(2)}€`;
+    span.innerText = `${kanap.price}€`;
 
         
     image.appendChild(img);

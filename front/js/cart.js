@@ -1,8 +1,8 @@
 document.querySelector('.number').innerHTML = localStorage.getItem('number') || 0;
 
-function cartPage (product){
+function cartPage (kanap){
 
-// Création d'une balise article, et de 5 div 
+// Création d'une balise article, et de 8 div 
     let article = document.createElement('article');
     article.id = product.id;
     article.className = 'cart';
@@ -10,6 +10,7 @@ function cartPage (product){
     imgCart.className = 'cart__items'
     let infoCart = document.createElement('div');
     infoCart.className = 'kanap-info'
+    console.log(kanap-info)
 
 
 
