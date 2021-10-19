@@ -19,11 +19,6 @@ const normalPrice = (str) => {
 };
 
 
-
-
-
-
-
 // const cart = querySelector('.cart')
 
 // let article = document.createElement('article')
