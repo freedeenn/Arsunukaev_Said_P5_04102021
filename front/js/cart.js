@@ -1,22 +1,23 @@
 // document.querySelector('.number').innerHTML = localStorage.getItem('number') || 0;
 
-const addToCart = document.querySelectorAll(".addToCart");
-const cart = document.querySelector("cart");
-const cartQuantity = document.querySelector("cartQuantity");
-const fullPrice = document.querySelector("fullPrice");
-let price = 0;
+// const addToCart = document.querySelectorAll(".addToCart");
+// const cart = document.querySelector("cart");
+// const cartQuantity = document.querySelector("cartQuantity");
+// const fullPrice = document.querySelector("fullPrice");
+// let price = 0;
 
-const randomId = () => {
-    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-};
+// const randomId = () => {
+//     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+// };
 
-const priceWithoutSpaces = (str) => {
-    return str.replace(/\s/g,'');
-};
+// const priceWithoutSpaces = (str) => {
+//     return str.replace(/\s/g,'');
+// };
 
-const normalPrice = (str) => {
-    return String(str).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
-};
+// const normalPrice = (str) => {
+//     return String(str).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+// };
+
 
 
 // const cart = querySelector('.cart')
@@ -29,7 +30,7 @@ const normalPrice = (str) => {
 
 // function cartPage (kanap){
 
-// Création d'une balise article, et de 8 div 
+// // // Création d'une balise article, et de 8 div 
 //     let article = document.createElement('article');
 //     article.id = product.id;
 //     article.className = 'cart';
@@ -37,8 +38,47 @@ const normalPrice = (str) => {
 //     imgCart.className = 'cart__items'
 //     let infoCart = document.createElement('div');
 //     infoCart.className = 'kanap-info'
-//     console.log(kanap-info)
 // }
+
+
+if (localStorage.getItem('products')!==null) {
+
+    const products = JSON.parse(localStorage.products);
+
+    let html = "";
+
+    products.forEach((product)=>{
+
+         html+= `
+         
+             <article class="cart__item" data-id=${product._id}>
+                <div class="cart__item__img">
+                  <img src=${product.imageUrl} alt="Photographie d'un canapé">
+                </div>
+                <div class="cart__item__content">
+                  <div class="cart__item__content__titlePrice">
+                    <h2>${product.name}</h2>
+                    <p>${product.price} €</p>
+                  </div>
+                  <div class="cart__item__content__settings">
+                    <div class="cart__item__content__settings__quantity">
+                      <p>Qté : </p>
+                      <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value=${product.number}>
+                    </div>
+                    <div class="cart__item__content__settings__delete">
+                      <p class="deleteItem">Supprimer</p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+         
+         `;
+
+    });
+
+    document.querySelector("#cart__items").innerHTML = html;
+
+}
 // function generateProductHTML(kanap) {
 
 //     //Selectionner la div qui va contenir le outerHTML du container
