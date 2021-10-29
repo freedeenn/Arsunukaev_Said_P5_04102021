@@ -5,7 +5,7 @@ const id = urlParams.get('id');
 
 
 let product;
-// //Afficher le produit sélectionné
+//=====================================================Afficher le produit sélectionné
 function generateProductHTML(kanap) {
   const img = document.createElement("img");
   img.src = `${kanap.imageUrl}`;
@@ -26,7 +26,7 @@ function generateProductHTML(kanap) {
 fetch(`${url}/${id}`)
   .then(function (response) {
     return response.json();
-  }).then(function (data){
+  }).then(function (data) {
     generateProductHTML(data);
     product = data;
   })
@@ -35,21 +35,21 @@ fetch(`${url}/${id}`)
     console.log(error)
   });
 
-  const elt = document.getElementById('addToCart');    // On récupère l'élément sur lequel on veut détecter le clic
-  elt.addEventListener('click', function(event) {      // On écoute l'événement click, notre callback prend un paramètre que nous avons appelé event ici
-      event.preventDefault();                          // On utilise la fonction preventDefault de notre objet event pour empêcher le comportement par défaut de cet élément lors du clic de la souris
-      console.log(product);
-      const nb = parseInt(document.getElementById('quantity').value); 
-      const addproduct = {...product, number: nb};
-      const products = JSON.parse(localStorage.getItem('products')) || [];
-      const index = products.map(function(one){
-        return one.id;
-      }).indexOf(product.id);
-      if (index === -1){
-        products.push(addproduct); 
-      } else {
-        products[index] = {...products[index], number: products[index].number + nb}
-      }
-      
-      localStorage.setItem('products', JSON.stringify(products));                           
-  });
+const elt = document.getElementById('addToCart');    // On récupère l'élément sur lequel on veut détecter le clic
+elt.addEventListener('click', function (event) {      // On écoute l'événement click, notre callback prend un paramètre que nous avons appelé event ici
+  event.preventDefault();                          // On utilise la fonction preventDefault de notre objet event pour empêcher le comportement par défaut de cet élément lors du clic de la souris
+  console.log(product);
+  const nb = parseInt(document.getElementById('quantity').value);
+  const addproduct = { ...product, number: nb };
+  const products = JSON.parse(localStorage.getItem('products')) || [];
+  const index = products.map(function (one) {
+    return one.id;
+  }).indexOf(product.id);
+  if (index === -1) {
+    products.push(addproduct);
+  } else {
+    products[index] = { ...products[index], number: products[index].number + nb }
+  }
+
+  localStorage.setItem('products', JSON.stringify(products));
+});
