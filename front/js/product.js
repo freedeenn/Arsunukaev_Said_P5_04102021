@@ -36,7 +36,7 @@ fetch(`${url}/${id}`)
   });
 
 const elt = document.getElementById('addToCart');    // On récupère l'élément sur lequel on veut détecter le clic
-elt.addEventListener('click', function (event) {      // On écoute l'événement click, notre callback prend un paramètre que nous avons appelé event ici
+elt.addEventListener('click', function (event) {    // On écoute l'événement click, notre callback prend un paramètre que nous avons appelé event ici
   event.preventDefault();                          // On utilise la fonction preventDefault de notre objet event pour empêcher le comportement par défaut de cet élément lors du clic de la souris
   console.log(product);
   const nb = parseInt(document.getElementById('quantity').value);
@@ -49,7 +49,6 @@ elt.addEventListener('click', function (event) {      // On écoute l'événemen
     products.push(addproduct);
   } else {
     products[index] = { ...products[index], number: products[index].number + nb }
-  }
-
+  } 
   localStorage.setItem('products', JSON.stringify(products));
 });

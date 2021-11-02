@@ -1,18 +1,18 @@
 
-const fullPrice = document.querySelector("fullPrice");
-let price = 0;
+// const fullPrice = document.querySelector("fullPrice");
+// let price = 0;
 
-const randomId = () => {
-  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-};
+// const randomId = () => {
+//   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+// };
 
-const priceWithoutSpaces = (str) => {
-  return str.replace(/\s/g, '');
-};
+// const priceWithoutSpaces = (str) => {
+//   return str.replace(/\s/g, '');
+// };
 
-const normalPrice = (str) => {
-  return String(str).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
-};
+// const normalPrice = (str) => {
+//   return String(str).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+// };
 
 //====================================================================Recuperer produit de localStorage========================================
 if (localStorage.getItem('products') !== null) {
@@ -55,37 +55,55 @@ if (localStorage.getItem('products') !== null) {
 
   //=====================================================================
 
-  let totalPriceCalcul = [];
+  // let totalPriceCalcul = [];
 
-  for (let l = 0; l > products.length; l++) {
-    console.log(products);
+
+  onclick = "deleteItem()"
+
+  function deleteItem() {
+    localStorage.removeItem('product');
   }
-
-  // document.onclick = event => {
-  //   if (event.target.classList.contains('.deleteItem')) {
-  //     plusFunction(event.target.dataset.id);
-  //   }
-  // }
 }
-// const plusFunction = id => {
+
+
+let supprimer_article = document.querySelectorAll('.deleteItem');
+console.log(supprimer_article);
+
+for (let i = 0; i < supprimer_article.length; i++) {
+  supprimer_article[i].addEventListener('click', (event) => {
+    event.preventDefault();
+    console.log(event);
+
+    let add_selectionner_suppression = products[i]._id;
+    console.log(add_selectionner_suppression);
+  })
+}
+
+//   document.onclick = event => {
+//     if (event.target.classList.contains('.deleteItem')) {
+//       plusFunction(event.target.dataset.id);
+//     }
+//   }
+//   const plusFunction = id => {
 //     cart[id]++;
 //     renderCart();
-// }
+//   }
 
-// const minusFunction = id => {
+//   const minusFunction = id => {
 //     if (cart[id] - 1 == 0) {
-//         deleteFunction(id);
-//         return true
+//       deleteFunction(id);
+//       return true
 //     }
 //     cart[id]--;
 //     renderCart();
-// }
+//   }
 
-// const deleteFunction = id => {
+//   const deleteFunction = id => {
 //     delete cart[id];
 //     renderCart();
-// }
+//   }
 
-// const renderCart = () => {
+//   const renderCart = () => {
 //     console.log(cart);
-// }
+//   }
+// 
