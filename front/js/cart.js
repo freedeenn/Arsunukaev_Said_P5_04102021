@@ -52,31 +52,25 @@ if (localStorage.getItem('products') !== null) {
 
   document.querySelector("#cart__items").innerHTML = html;
   console.log(cart__items);
-
+}
   //=====================================================================
 
   // let totalPriceCalcul = [];
 
-
-  onclick = "deleteItem()"
-
-  function deleteItem() {
-    localStorage.removeItem('product');
-  }
-}
-
-
 let supprimer_article = document.querySelectorAll('.deleteItem');
-console.log(supprimer_article);
 
 for (let i = 0; i < supprimer_article.length; i++) {
   supprimer_article[i].addEventListener('click', (event) => {
-    event.preventDefault();
-    console.log(event);
 
-    let add_selectionner_suppression = products[i]._id;
-    console.log(add_selectionner_suppression);
-  })
+    // Supprimer d'abord l'article du localStorage avant d'executer le code suivant
+    const products = JSON.parse(localStorage.getItem('products'));
+    localStorage.removeItem('products');
+    console.log(products);
+    const artcile = supprimer_article[i].parentElement.parentElement.parentElement.parentElement;
+
+    artcile.remove();
+
+  });
 }
 
 //   document.onclick = event => {
@@ -106,4 +100,3 @@ for (let i = 0; i < supprimer_article.length; i++) {
 //   const renderCart = () => {
 //     console.log(cart);
 //   }
-// 
