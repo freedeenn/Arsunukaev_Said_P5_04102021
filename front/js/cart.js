@@ -55,8 +55,6 @@ if (localStorage.getItem('products') !== null) {
 }
   //=====================================================================
 
-  // let totalPriceCalcul = [];
-
 let supprimer_article = document.querySelectorAll('.deleteItem');
 
 for (let i = 0; i < supprimer_article.length; i++) {
@@ -72,31 +70,31 @@ for (let i = 0; i < supprimer_article.length; i++) {
 
   });
 }
+//========================================================================
 
-//   document.onclick = event => {
-//     if (event.target.classList.contains('.deleteItem')) {
-//       plusFunction(event.target.dataset.id);
-//     }
-//   }
-//   const plusFunction = id => {
-//     cart[id]++;
-//     renderCart();
-//   }
+let totalPriceCalcul = [];
 
-//   const minusFunction = id => {
-//     if (cart[id] - 1 == 0) {
-//       deleteFunction(id);
-//       return true
-//     }
-//     cart[id]--;
-//     renderCart();
-//   }
+for (let l = 0; l < products.length; l++) {
+  let prixProduitsPanier = products[l].price;
 
-//   const deleteFunction = id => {
-//     delete cart[id];
-//     renderCart();
-//   }
+  totalPriceCalcul.push(prixProduitsPanier)
 
-//   const renderCart = () => {
-//     console.log(cart);
-//   }
+  console.log(totalPriceCalcul);
+}
+
+const reducer = (accumulator, currentValue) => accumulator + currentValue;
+const prixTotal = totalPriceCalcul.reduce(reducer,0);
+
+console.log(prixTotal);
+
+
+
+
+// let produit = document.getElementById("cart_items").value;
+// let Quantity = document.getElementById("totalQuantity").value;
+// let Price = document.getElementById("totalPrice").value;
+
+// function calculateTax(totalPrice) {
+// document.getElementById("totalPrice").value = totalPrice * totalQuantity;
+// console.log(calculateTax);
+// }
