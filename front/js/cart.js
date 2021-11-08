@@ -53,7 +53,7 @@ if (localStorage.getItem('products') !== null) {
   document.querySelector("#cart__items").innerHTML = html;
   console.log(cart__items);
 }
-  //=====================================================================
+//=====================================================================supprimer produit================================ 
 
 let supprimer_article = document.querySelectorAll('.deleteItem');
 
@@ -70,23 +70,26 @@ for (let i = 0; i < supprimer_article.length; i++) {
 
   });
 }
-//========================================================================
+//========================================================================Calculer prix total==============================
+if (localStorage.getItem('products') !== null) {
 
-let totalPriceCalcul = [];
+  const products = JSON.parse(localStorage.products);
+console.log(products);
+  let totalPriceCalcul = 0;
 
-for (let l = 0; l < products.length; l++) {
-  let prixProduitsPanier = products[l].price;
+  for (let l = 0; l < products.length; l++) {
+    totalPriceCalcul += products[l].price * products[l].number;
 
-  totalPriceCalcul.push(prixProduitsPanier)
+    // totalPriceCalcul.push(prixProduitsPanier)
 
-  console.log(totalPriceCalcul);
+    console.log(totalPriceCalcul);
+  }
+
+  // const reducer = (accumulator, currentValue) => accumulator + currentValue;
+  // const prixTotal = totalPriceCalcul.reduce(reducer, 0);
+
+  // console.log(prixTotal);
 }
-
-const reducer = (accumulator, currentValue) => accumulator + currentValue;
-const prixTotal = totalPriceCalcul.reduce(reducer,0);
-
-console.log(prixTotal);
-
 
 
 
