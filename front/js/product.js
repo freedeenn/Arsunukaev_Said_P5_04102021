@@ -48,36 +48,41 @@ fetch(`${url}/${id}`)
 // }
 let btnAdd = document.querySelector('#addToCart');
 btnAdd.addEventListener("click", function () {
-  // console.log(this.closest('.scnd-teddy-container').getAttribute('data-id'));
+  
   let name = document.querySelector('#title').innerText;
-  let image = document.querySelector('#img');
-  let color = document.querySelector('.option')
+  let description = document.querySelector('#description').innerText;
+  let image = document.querySelector('.item__img');
+  let color = document.querySelector('#colors')
+  let nb = parseInt(document.getElementById('quantity').value);
   let price = parseInt(document.querySelector('#price').innerText);
-  let produits = JSON.parse(localStorage.getItem('produits')) || [];
-  let productIndex = produits.findIndex(function (element) {
+  let products = JSON.parse(localStorage.getItem('products')) || [];
+  let productIndex = products.findIndex(function (element) {
     console.log(element.price);
     return element.id === id;
   })
-  console.log(productIndex)
-  console.log(produits);
-  console.log(produits[productIndex]);
-  if (index === -1) {
-    produits.push({
+  console.log(productIndex);
+  console.log(products);
+  console.log(products[productIndex]);
+  if (productIndex === -1) {
+    products.push({
       id: id,
       image: image,
       price: price,
       name: name,
+      description: description,
       color: color,
     })
   } else {
-    produits[index] = {
+    products[productIndex] = {
       id: id,
       image: image,
       price: price,
       name: name,
+      description: description,
       color: color,
     }
   }
+  console.log(products);
   localStorage.setItem('products', JSON.stringify(products));
 });
 

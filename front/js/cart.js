@@ -14,25 +14,24 @@
 //   return String(str).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
 // };
 
-//====================================================================Recuperer produit de localStorage========================================
+//========================Recuperer produit de localStorage=======================================
 
 if (localStorage.getItem('products') !== null) {
 
   const products = JSON.parse(localStorage.products);
 
-  // ================parcurire les produits dans localStorage==============
+  // =====================parcurire les produits dans localStorage================================
 
   products.forEach((product) => {
 
-    //=============================Selectionner la div qui va contenir le outerHTML du container
+    //====================Selectionner la div qui va contenir le outerHTML du container===========
 
     let container = document.querySelector('#cart__items')
-    console.log(container);
 
-    //=============================Création de la balise article et ajout d'une classe
+    //====================Création de la balise article et ajout d'une classe=====================
 
-    let article = document.createElement('article')
-    article.id = product._id;
+    let article = document.createElement('article');
+    article.id = `${product._id}`;
     article.className = 'cart__item';
     container.appendChild(article);
 
@@ -45,8 +44,17 @@ if (localStorage.getItem('products') !== null) {
     article.appendChild(image);
     image.appendChild(img);
 
+    // =================================div content===============================================
+
+    let cart__item__content = document.createElement('div');
+    cart__item__content.className = 'cart__item__content';
+    article.appendChild(cart__item__content);
+
+    // =================================div title and price=======================================
+
     let cart__item__content__titlePrice = document.createElement('div');
-    article.appendChild(cart__item__content__titlePrice);
+    cart__item__content__titlePrice.className = 'cart__item__content__titlePrice';
+    cart__item__content.appendChild(cart__item__content__titlePrice);
 
     let title = document.createElement('h2');
     title.className = 'product-name';
@@ -58,10 +66,16 @@ if (localStorage.getItem('products') !== null) {
     price.innerText = `${product.description}`;
     cart__item__content__titlePrice.appendChild(price);
 
+    // ===================================div settings============================================
+
     let cart__item__content__settings = document.createElement('div');
-    article.appendChild(cart__item__content__settings);
+    cart__item__content__settings.className = 'cart__item__content__settings';
+    cart__item__content.appendChild(cart__item__content__settings);
+
+    // ===================================div quantity============================================
 
     let cart__item__content__settings__quantity = document.createElement('div');
+    cart__item__content__settings__quantity.className = 'cart__item__content__settings__quantity';
     cart__item__content__settings.appendChild(cart__item__content__settings__quantity);
 
     let qte = document.createElement('p');
@@ -69,18 +83,23 @@ if (localStorage.getItem('products') !== null) {
     qte.innerText = `${product.number}`;
     cart__item__content__settings__quantity.appendChild(qte);
 
+    let input = document.createElement('input');
+    cart__item__content__settings__quantity.appendChild(input);
+
+    // ==================================div delete===============================================
+
     let cart__item__content__settings__delete = document.createElement('div');
+    cart__item__content__settings__delete.className = 'cart__item__content__settings__delete';
     cart__item__content__settings.appendChild(cart__item__content__settings__delete);
 
     let supprimer = document.createElement('p');
     supprimer.className = 'deleteItem';
-    supprimer.innerText = `${product.supprimer}`;
+    supprimer.innerText = 'supprimer';
     cart__item__content__settings__delete.appendChild(supprimer);
   });
-
-  // document.querySelector("#cart__items").innerHTML;
 }
-//=====================================================================supprimer produit================================ 
+
+//=====================================supprimer produit============================================
 
 let supprimer_article = document.querySelectorAll('.deleteItem');
 
@@ -97,7 +116,9 @@ for (let i = 0; i < supprimer_article.length; i++) {
 
   });
 }
-//========================================================================Calculer prix total==============================
+
+//======================================Calculer prix total==========================================
+
 if (localStorage.getItem('products') !== null) {
 
   const products = JSON.parse(localStorage.products);
@@ -110,31 +131,3 @@ if (localStorage.getItem('products') !== null) {
     console.log(totalPriceCalcul);
   }
 }
-
-
-// let html = "";
-
-  // html += `
-
-    //          <article class="cart__item" data-id=${product._id}>
-    //             <div class="cart__item__img">
-    //               <img src=${product.imageUrl} alt="Photographie d'un canapé">
-    //             </div>
-    //             <div class="cart__item__content">
-    //               <div class="cart__item__content__titlePrice">
-    //                 <h2>${product.name}</h2>
-    //                 <p>${product.price} €</p>
-    //               </div>
-    //               <div class="cart__item__content__settings">
-    //                 <div class="cart__item__content__settings__quantity">
-    //                   <p>Qté : </p>
-    //                   <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value=${product.number}>
-    //                 </div>
-    //                 <div class="cart__item__content__settings__delete">
-    //                   <p class="deleteItem">Supprimer</p>
-    //                 </div>
-    //               </div>
-    //             </div>
-    //           </article>
-
-    //      `;
