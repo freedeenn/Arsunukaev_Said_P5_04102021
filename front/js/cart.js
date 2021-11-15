@@ -15,43 +15,70 @@
 // };
 
 //====================================================================Recuperer produit de localStorage========================================
+
 if (localStorage.getItem('products') !== null) {
 
   const products = JSON.parse(localStorage.products);
 
-  let html = "";
+  // ================parcurire les produits dans localStorage==============
 
   products.forEach((product) => {
 
-    html += `
-         
-             <article class="cart__item" data-id=${product._id}>
-                <div class="cart__item__img">
-                  <img src=${product.imageUrl} alt="Photographie d'un canapé">
-                </div>
-                <div class="cart__item__content">
-                  <div class="cart__item__content__titlePrice">
-                    <h2>${product.name}</h2>
-                    <p>${product.price} €</p>
-                  </div>
-                  <div class="cart__item__content__settings">
-                    <div class="cart__item__content__settings__quantity">
-                      <p>Qté : </p>
-                      <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value=${product.number}>
-                    </div>
-                    <div class="cart__item__content__settings__delete">
-                      <p class="deleteItem">Supprimer</p>
-                    </div>
-                  </div>
-                </div>
-              </article>
-         
-         `;
+    //=============================Selectionner la div qui va contenir le outerHTML du container
 
+    let container = document.querySelector('#cart__items')
+    console.log(container);
+
+    //=============================Création de la balise article et ajout d'une classe
+
+    let article = document.createElement('article')
+    article.id = product._id;
+    article.className = 'cart__item';
+    container.appendChild(article);
+
+    let image = document.createElement('div');
+    image.className = 'cart__item__img';
+    let img = document.createElement('img');
+    img.className = 'kanap-pic';
+    img.src = `${product.imageUrl}`;
+    img.setAttribute("alt", `image ${product.name}`);
+    article.appendChild(image);
+    image.appendChild(img);
+
+    let cart__item__content__titlePrice = document.createElement('div');
+    article.appendChild(cart__item__content__titlePrice);
+
+    let title = document.createElement('h2');
+    title.className = 'product-name';
+    title.innerText = `${product.name}`;
+    cart__item__content__titlePrice.appendChild(title);
+
+    let price = document.createElement('p')
+    price.className = 'description';
+    price.innerText = `${product.description}`;
+    cart__item__content__titlePrice.appendChild(price);
+
+    let cart__item__content__settings = document.createElement('div');
+    article.appendChild(cart__item__content__settings);
+
+    let cart__item__content__settings__quantity = document.createElement('div');
+    cart__item__content__settings.appendChild(cart__item__content__settings__quantity);
+
+    let qte = document.createElement('p');
+    qte.className = 'itemQuantity';
+    qte.innerText = `${product.number}`;
+    cart__item__content__settings__quantity.appendChild(qte);
+
+    let cart__item__content__settings__delete = document.createElement('div');
+    cart__item__content__settings.appendChild(cart__item__content__settings__delete);
+
+    let supprimer = document.createElement('p');
+    supprimer.className = 'deleteItem';
+    supprimer.innerText = `${product.supprimer}`;
+    cart__item__content__settings__delete.appendChild(supprimer);
   });
 
-  document.querySelector("#cart__items").innerHTML = html;
-  console.log(cart__items);
+  // document.querySelector("#cart__items").innerHTML;
 }
 //=====================================================================supprimer produit================================ 
 
@@ -74,30 +101,40 @@ for (let i = 0; i < supprimer_article.length; i++) {
 if (localStorage.getItem('products') !== null) {
 
   const products = JSON.parse(localStorage.products);
-console.log(products);
+  console.log(products);
   let totalPriceCalcul = 0;
 
   for (let l = 0; l < products.length; l++) {
     totalPriceCalcul += products[l].price * products[l].number;
 
-    // totalPriceCalcul.push(prixProduitsPanier)
-
     console.log(totalPriceCalcul);
   }
-
-  // const reducer = (accumulator, currentValue) => accumulator + currentValue;
-  // const prixTotal = totalPriceCalcul.reduce(reducer, 0);
-
-  // console.log(prixTotal);
 }
 
 
+// let html = "";
 
-// let produit = document.getElementById("cart_items").value;
-// let Quantity = document.getElementById("totalQuantity").value;
-// let Price = document.getElementById("totalPrice").value;
+  // html += `
 
-// function calculateTax(totalPrice) {
-// document.getElementById("totalPrice").value = totalPrice * totalQuantity;
-// console.log(calculateTax);
-// }
+    //          <article class="cart__item" data-id=${product._id}>
+    //             <div class="cart__item__img">
+    //               <img src=${product.imageUrl} alt="Photographie d'un canapé">
+    //             </div>
+    //             <div class="cart__item__content">
+    //               <div class="cart__item__content__titlePrice">
+    //                 <h2>${product.name}</h2>
+    //                 <p>${product.price} €</p>
+    //               </div>
+    //               <div class="cart__item__content__settings">
+    //                 <div class="cart__item__content__settings__quantity">
+    //                   <p>Qté : </p>
+    //                   <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value=${product.number}>
+    //                 </div>
+    //                 <div class="cart__item__content__settings__delete">
+    //                   <p class="deleteItem">Supprimer</p>
+    //                 </div>
+    //               </div>
+    //             </div>
+    //           </article>
+
+    //      `;

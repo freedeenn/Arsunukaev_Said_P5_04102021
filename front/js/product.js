@@ -35,20 +35,74 @@ fetch(`${url}/${id}`)
     console.log(error)
   });
 
-const elt = document.getElementById('addToCart');    // On récupère l'élément sur lequel on veut détecter le clic
-elt.addEventListener('click', function (event) {    // On écoute l'événement click, notre callback prend un paramètre que nous avons appelé event ici
-  event.preventDefault();                          // On utilise la fonction preventDefault de notre objet event pour empêcher le comportement par défaut de cet élément lors du clic de la souris
-  console.log(product);
-  const nb = parseInt(document.getElementById('quantity').value);
-  const addproduct = { ...product, number: nb };
-  const products = JSON.parse(localStorage.getItem('products')) || [];
-  const index = products.map(function (one) {
-    return one.id;
-  }).indexOf(product.id);
+
+// const elt = document.getElementById('addToCart');    // On récupère l'élément sur lequel on veut détecter le clic
+// elt.addEventListener('click', function (event) {    // On écoute l'événement click, notre callback prend un paramètre que nous avons appelé event ici
+//   event.preventDefault();                          // On utilise la fonction preventDefault de notre objet event pour empêcher le comportement par défaut de cet élément lors du clic de la souris
+//   console.log(product);
+//   const products = JSON.parse(localStorage.getItem('products')) || [];
+// if(index === -1) {
+//   products.push(addproduct);
+// } else {
+//   products[index] 
+// }
+let btnAdd = document.querySelector('#addToCart');
+btnAdd.addEventListener("click", function () {
+  // console.log(this.closest('.scnd-teddy-container').getAttribute('data-id'));
+  let name = document.querySelector('#title').innerText;
+  let image = document.querySelector('#img');
+  let color = document.querySelector('.option')
+  let price = parseInt(document.querySelector('#price').innerText);
+  let produits = JSON.parse(localStorage.getItem('produits')) || [];
+  let productIndex = produits.findIndex(function (element) {
+    console.log(element.price);
+    return element.id === id;
+  })
+  console.log(productIndex)
+  console.log(produits);
+  console.log(produits[productIndex]);
   if (index === -1) {
-    products.push(addproduct);
+    produits.push({
+      id: id,
+      image: image,
+      price: price,
+      name: name,
+      color: color,
+    })
   } else {
-    products[index] = { ...products[index], number: products[index].number + nb }
-  } 
+    produits[index] = {
+      id: id,
+      image: image,
+      price: price,
+      name: name,
+      color: color,
+    }
+  }
   localStorage.setItem('products', JSON.stringify(products));
 });
+
+
+
+
+
+
+
+
+
+// const elt = document.getElementById('addToCart');    // On récupère l'élément sur lequel on veut détecter le clic
+// elt.addEventListener('click', function (event) {    // On écoute l'événement click, notre callback prend un paramètre que nous avons appelé event ici
+//   event.preventDefault();                          // On utilise la fonction preventDefault de notre objet event pour empêcher le comportement par défaut de cet élément lors du clic de la souris
+//   console.log(product);
+//   const nb = parseInt(document.getElementById('quantity').value);
+//   const addproduct = { ...product, number: nb };
+//   const products = JSON.parse(localStorage.getItem('products')) || [];
+//   const index = products.map(function (one) {
+//     return one.id;
+//   }).indexOf(product.id);
+//   if (index === -1) {
+//     products.push(addproduct);
+//   } else {
+//     products[index] = { ...products[index], number: products[index].number + nb }
+//   } 
+//   localStorage.setItem('products', JSON.stringify(products));
+// });
