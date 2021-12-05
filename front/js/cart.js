@@ -15,6 +15,9 @@
 // };
 
 //========================Recuperer produit de localStorage=======================================
+const url = 'http://localhost:3000/api/products';
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get('id');
 
 if (localStorage.getItem('products') !== null) {
 
@@ -31,17 +34,17 @@ if (localStorage.getItem('products') !== null) {
     //====================Création de la balise article et ajout d'une classe=====================
 
     let article = document.createElement('article');
-    article.id = `${product._id}`;
+    article.id = `${product.id}`;
     article.className = 'cart__item';
     container.appendChild(article);
 
     let image = document.createElement('div');
     image.className = 'cart__item__img';
-    let img = document.createElement('img');
-    img.className = 'kanap-pic';
+    article.appendChild(image);
+
+    const img = document.createElement("img");
     img.src = `${product.imageUrl}`;
     img.setAttribute("alt", `image ${product.name}`);
-    article.appendChild(image);
     image.appendChild(img);
 
     // =================================div content===============================================
@@ -80,10 +83,13 @@ if (localStorage.getItem('products') !== null) {
 
     let qte = document.createElement('p');
     qte.className = 'itemQuantity';
-    qte.innerText = `${product.number}`;
+    qte.innerText = 'Qté';
     cart__item__content__settings__quantity.appendChild(qte);
 
     let input = document.createElement('input');
+    input.type = 'number';
+    input.min = "1";
+    input.max = "99"
     cart__item__content__settings__quantity.appendChild(input);
 
     // ==================================div delete===============================================

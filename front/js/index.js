@@ -2,7 +2,7 @@
 const url = 'http://localhost:3000/api/products';
 
 /*
- * kanap = {
+ * product = {
     id: ObjectID
     name: string
     price: number
@@ -14,7 +14,7 @@ const url = 'http://localhost:3000/api/products';
  * 
 */
 
-function generateProductHTML(kanap) {
+function generateProductHTML(product) {
 
     //=========================================================Selectionner la div qui va contenir le outerHTML du container
     let container = document.querySelector('#items')
@@ -22,52 +22,52 @@ function generateProductHTML(kanap) {
 
     //=========================================================Création de la balise article et ajout d'une classe
     let article = document.createElement('article')
-    article.className = 'kanap-container'
+    article.className = 'product-container'
     console.log(article);
 
 
     //=========================================================Child de l'article
     let image = document.createElement('div');
-    image.className = 'kanap';
+    image.className = 'item__img';
     article.appendChild(image);
 
     let info = document.createElement('div');
-    info.className = 'kanap-info';
+    info.className = 'product-info';
     article.appendChild(info);
 
     let a = document.createElement('a');
-    a.setAttribute('href', `product.html?id=${kanap._id}`);
+    a.setAttribute('href', `product.html?id=${product._id}`);
     container.appendChild(a);
     a.appendChild(article);
 
     //=========================================================Child des autres balises    
     let img = document.createElement('img');
-    img.className = 'kanap-pic';
-    img.setAttribute('src', kanap.imageUrl);
-    img.setAttribute("alt", `image ${kanap.name}`);
+    img.className = 'product-pic';
+    img.setAttribute('src', product.imageUrl);
+    img.setAttribute("alt", `image ${product.name}`);
     image.appendChild(img);
 
     let h2 = document.createElement('h2');
-    h2.className = 'kanap-name';
-    h2.innerText = kanap.name;
+    h2.className = 'product-name';
+    h2.innerText = product.name;
     info.appendChild(h2);
 
     let p = document.createElement('p');
     p.className = 'description';
-    p.innerText = kanap.description;
+    p.innerText = product.description;
     article.appendChild(p);
 
     let span = document.createElement('span');
     span.className = 'price';
-    span.innerText = `${kanap.price}€`;
+    span.innerText = `${product.price}€`;
     info.appendChild(span);
 }
 
 function handleProductsData(products) {
     //===============================================================parcourir les produits
-    products.forEach(kanap => {
+    products.forEach(product => {
         //===========================================================afficher les produits
-        generateProductHTML(kanap);
+        generateProductHTML(product);
     });
 }
 

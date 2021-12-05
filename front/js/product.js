@@ -6,16 +6,16 @@ const id = urlParams.get('id');
 
 let product;
 //=====================================================Afficher le produit sélectionné
-function generateProductHTML(kanap) {
+function generateProductHTML(product) {
   const img = document.createElement("img");
-  img.src = `${kanap.imageUrl}`;
-  img.setAttribute("alt", `image ${kanap.name}`);
+  img.src = `${product.imageUrl}`;
+  img.setAttribute("alt", `image ${product.name}`);
   document.querySelector('.item__img').appendChild(img);
-  document.getElementById('title').innerText = `${kanap.name}`;
-  document.getElementById('price').innerText = `${kanap.price}`;
-  document.getElementById('description').innerText = `${kanap.description}`;
+  document.getElementById('title').innerText = `${product.name}`;
+  document.getElementById('price').innerText = `${product.price}`;
+  document.getElementById('description').innerText = `${product.description}`;
 
-  kanap.colors.forEach(color => {
+  product.colors.forEach(color => {
     const option = document.createElement('option');
     option.value = color;
     option.innerText = `${color}`;
@@ -48,12 +48,12 @@ fetch(`${url}/${id}`)
 // }
 let btnAdd = document.querySelector('#addToCart');
 btnAdd.addEventListener("click", function () {
-  
+
   let name = document.querySelector('#title').innerText;
   let description = document.querySelector('#description').innerText;
   let image = document.querySelector('.item__img');
   let color = document.querySelector('#colors')
-  let nb = parseInt(document.getElementById('quantity').value);
+  // let nb = parseInt(document.getElementById('quantity').value);
   let price = parseInt(document.querySelector('#price').innerText);
   let products = JSON.parse(localStorage.getItem('products')) || [];
   let productIndex = products.findIndex(function (element) {
@@ -71,6 +71,7 @@ btnAdd.addEventListener("click", function () {
       name: name,
       description: description,
       color: color,
+      count: 1
     })
   } else {
     products[productIndex] = {
@@ -80,12 +81,24 @@ btnAdd.addEventListener("click", function () {
       name: name,
       description: description,
       color: color,
+      count: products[productIndex].count + 1
     }
   }
   console.log(products);
   localStorage.setItem('products', JSON.stringify(products));
-});
 
+  let Total = products.reduce(function (prev, cur) {
+    console.log(prev);
+    console.log(cur);
+    return prev + cur.count;
+  }, 0)
+  console.log(Total);
+  document.querySelector('#quantity').innerHTML = Total;
+  localStorage.setItem('number', Total)
+
+  alert(name + " (" + color + ") a été ajouté au panier !");
+
+});
 
 
 
