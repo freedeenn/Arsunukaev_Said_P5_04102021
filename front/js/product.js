@@ -41,7 +41,7 @@ btnAdd.addEventListener("click", function () {
   let name = document.querySelector('#title').innerText;
   let description = document.querySelector('#description').innerText;
   let image = document.querySelector('.item__img');
-  let color = document.querySelector('#colors')
+  let color = document.querySelector('#colors');
   let price = parseInt(document.querySelector('#price').innerText);
   let products = JSON.parse(localStorage.getItem('products')) || [];
   let productIndex = products.findIndex(function (element) {
