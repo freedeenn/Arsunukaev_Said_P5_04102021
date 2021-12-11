@@ -1,23 +1,47 @@
 
-// const fullPrice = document.querySelector("fullPrice");
-// let price = 0;
+//========================Recuperer produit de localStorage=======================================
 
-// const randomId = () => {
-//   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+// if (localStorage.getItem('products') !== null) {
+
+//   const products = JSON.parse(localStorage.products);
+
+//   // =====================parcurire les produits dans localStorage================================
+//   let html = "";
+//   products.forEach((product) => {
+
+//     html += `
+
+//       <article class="cart__item" data - id=${product._id}>
+//         <div class="cart__item__img">
+//           <img src=${product.imageUrl} alt="Photographie d'un canapé">
+//             </div>
+//           <div class="cart__item__content">
+//             <div class="cart__item__content__titlePrice">
+//               <h2>${product.name}</h2>
+//               <p>${product.price}</p>
+//             </div>
+//             <div class="cart__item__content__settings">
+//               <div class="cart__item__content__settings__quantity">
+//                 <p>Qté : </p>
+//                 <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value=${product.nomber}>
+//                 </div>
+//                 <div class="cart__item__content__settings__delete">
+//                   <p class="deleteItem">Supprimer</p>
+//                 </div>
+//               </div>
+//             </div>
+//           </article>
+
+//           `;
+
+//   });
+
+//   document.querySelector("#cart__items").innerHTML = html;
 // };
 
-// const priceWithoutSpaces = (str) => {
-//   return str.replace(/\s/g, '');
-// };
 
-// const normalPrice = (str) => {
-//   return String(str).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
-// };
 
 //========================Recuperer produit de localStorage=======================================
-const url = 'http://localhost:3000/api/products';
-const urlParams = new URLSearchParams(window.location.search);
-const id = urlParams.get('id');
 
 if (localStorage.getItem('products') !== null) {
 
@@ -65,8 +89,8 @@ if (localStorage.getItem('products') !== null) {
     cart__item__content__titlePrice.appendChild(title);
 
     let price = document.createElement('p')
-    price.className = 'description';
-    price.innerText = `${product.description}`;
+    price.className = 'price';
+    price.innerText = `Prix : ${product.price}`;
     cart__item__content__titlePrice.appendChild(price);
 
     // ===================================div settings============================================
@@ -81,16 +105,21 @@ if (localStorage.getItem('products') !== null) {
     cart__item__content__settings__quantity.className = 'cart__item__content__settings__quantity';
     cart__item__content__settings.appendChild(cart__item__content__settings__quantity);
 
+    let description = document.createElement('p')
+    description.className = 'description';
+    description.innerText = `${product.description}`;
+    cart__item__content__settings.appendChild(description);
+
     let qte = document.createElement('p');
     qte.className = 'itemQuantity';
-    qte.innerText = 'Qté';
+    qte.innerText = `Qté : ${product.count}`;
     cart__item__content__settings__quantity.appendChild(qte);
 
     let input = document.createElement('input');
     input.type = 'number';
     input.min = "1";
     input.max = "99"
-    cart__item__content__settings__quantity.appendChild(input);
+    qte.appendChild(input);
 
     // ==================================div delete===============================================
 
@@ -116,24 +145,28 @@ for (let i = 0; i < supprimer_article.length; i++) {
     const products = JSON.parse(localStorage.getItem('products'));
     localStorage.removeItem('products');
     console.log(products);
-    const artcile = supprimer_article[i].parentElement.parentElement.parentElement.parentElement;
+    const article = supprimer_article[i].parentElement.parentElement.parentElement.parentElement;
 
-    artcile.remove();
+    article.remove();
 
   });
 }
 
-//======================================Calculer prix total==========================================
+//======================================Calculer prix total et quantité==========================================
 
 if (localStorage.getItem('products') !== null) {
 
   const products = JSON.parse(localStorage.products);
   console.log(products);
   let totalPriceCalcul = 0;
+  let totalCount = 0;
 
   for (let l = 0; l < products.length; l++) {
-    totalPriceCalcul += products[l].price * products[l].number;
-
-    console.log(totalPriceCalcul);
+    totalPriceCalcul += products[l].price * products[l].count;
+    totalCount += products[l].count;
+    // ====afficher prix total=========
+    totalPrice.innerText = `${totalPriceCalcul}`;
+    // ====afficher quantité total=====
+    totalQuantity.innerText = `${totalCount}`;
   }
 }

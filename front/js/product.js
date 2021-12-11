@@ -18,7 +18,7 @@ function generateProductHTML(product) {
   product.colors.forEach(color => {
     const option = document.createElement('option');
     option.value = color;
-    option.innerText = `${color}`;
+    option.innerText = color;
     document.getElementById('colors').appendChild(option);
   });
 };
@@ -35,17 +35,6 @@ fetch(`${url}/${id}`)
     console.log(error)
   });
 
-
-// const elt = document.getElementById('addToCart');    // On récupère l'élément sur lequel on veut détecter le clic
-// elt.addEventListener('click', function (event) {    // On écoute l'événement click, notre callback prend un paramètre que nous avons appelé event ici
-//   event.preventDefault();                          // On utilise la fonction preventDefault de notre objet event pour empêcher le comportement par défaut de cet élément lors du clic de la souris
-//   console.log(product);
-//   const products = JSON.parse(localStorage.getItem('products')) || [];
-// if(index === -1) {
-//   products.push(addproduct);
-// } else {
-//   products[index] 
-// }
 let btnAdd = document.querySelector('#addToCart');
 btnAdd.addEventListener("click", function () {
 
@@ -53,7 +42,6 @@ btnAdd.addEventListener("click", function () {
   let description = document.querySelector('#description').innerText;
   let image = document.querySelector('.item__img');
   let color = document.querySelector('#colors')
-  // let nb = parseInt(document.getElementById('quantity').value);
   let price = parseInt(document.querySelector('#price').innerText);
   let products = JSON.parse(localStorage.getItem('products')) || [];
   let productIndex = products.findIndex(function (element) {
@@ -65,43 +53,48 @@ btnAdd.addEventListener("click", function () {
   console.log(products[productIndex]);
   if (productIndex === -1) {
     products.push({
-      id: id,
-      image: image,
-      price: price,
-      name: name,
-      description: description,
-      color: color,
+      id,
+      image,
+      price,
+      name,
+      description,
+      color,
       count: 1
     })
   } else {
     products[productIndex] = {
-      id: id,
-      image: image,
-      price: price,
-      name: name,
-      description: description,
-      color: color,
+      id,
+      image,
+      price,
+      name,
+      description,
+      color,
       count: products[productIndex].count + 1
     }
   }
   console.log(products);
   localStorage.setItem('products', JSON.stringify(products));
 
-  let Total = products.reduce(function (prev, cur) {
+  // const total = products;
+  // for (let i = 0; i < total.length; i++) {
+  //   total[i](count => {
+  //     console.log(count);
+  //     return count
+  //   })    
+  // }
+
+  let total = products.reduce(function (prev, cur) {
     console.log(prev);
     console.log(cur);
     return prev + cur.count;
   }, 0)
-  console.log(Total);
-  document.querySelector('#quantity').innerHTML = Total;
-  localStorage.setItem('number', Total)
+  console.log(total);
+  document.querySelector('#quantity').innerHTML = total;
+  localStorage.setItem('number', total)
 
   alert(name + " (" + color + ") a été ajouté au panier !");
 
 });
-
-
-
 
 
 

@@ -78,3 +78,11 @@ fetch(url)
     .catch(function (error) {
         console.log(error);
     });
+
+// fetch(url)
+//     .then(function => {
+//         return response.json();
+//     }).then(handleProductsData)
+//     .catch(function => {
+//         console.log(error);
+//     });    
