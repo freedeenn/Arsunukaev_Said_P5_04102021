@@ -66,7 +66,7 @@ if (localStorage.getItem('products') !== null) {
     image.className = 'cart__item__img';
     article.appendChild(image);
 
-    const img = document.createElement("img");
+    let img = document.createElement("img");
     img.src = `${product.imageUrl}`;
     img.setAttribute("alt", `image ${product.name}`);
     image.appendChild(img);
@@ -170,3 +170,31 @@ if (localStorage.getItem('products') !== null) {
     totalQuantity.innerText = `${totalCount}`;
   }
 }
+
+
+let order = document.querySelector('#order');
+order.addEventListener('click', function () {
+
+  fetch("http://localhost:3000/api/products", {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      products: products
+    })
+  })
+    .then(function (response) {
+      return response.json();
+    }).then(function (response) {
+      console.log(response)
+      window.location.replace(`confirm.html?orderId=${response.orderId}`)
+    })
+    .catch(function (error) {
+      console.log(error)
+    });
+
+  // Enlever les produits du localstorage après validation de la commande
+  localStorage.clear();
+})
