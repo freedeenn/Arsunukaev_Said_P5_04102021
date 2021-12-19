@@ -14,11 +14,11 @@ const url = 'http://localhost:3000/api/products';
  * 
 */
 
-function generateProductHTML(product) {
+// function generateProductHTML(product) {
+generateProductHTML = product => {    
 
     //=========================================================Selectionner la div qui va contenir le outerHTML du container
     let container = document.querySelector('#items')
-
 
     //=========================================================Création de la balise article et ajout d'une classe
     let article = document.createElement('article')
@@ -63,26 +63,19 @@ function generateProductHTML(product) {
     info.appendChild(span);
 }
 
-function handleProductsData(products) {
-    //===============================================================parcourir les produits
-    products.forEach(product => {
-        //===========================================================afficher les produits
-        generateProductHTML(product);
-    });
-}
+// function handleProductsData(products) {
+//gérer les données produit===/===parcourir les produits===/===afficher les produits
+handleProductsData = products => products.forEach(product => generateProductHTML(product));
 
 fetch(url)
-    .then(function (response) {
-        return response.json();
-    }).then(handleProductsData)
-    .catch(function (error) {
-        console.log(error);
-    });
+    .then(res => res.json().then(handleProductsData))
+    .catch(error => console.log(error))
 
 // fetch(url)
-//     .then(function => {
+//     .then(function (response) {
 //         return response.json();
 //     }).then(handleProductsData)
-//     .catch(function => {
+//     .catch(function (error) {
 //         console.log(error);
-//     });    
+//     });
+

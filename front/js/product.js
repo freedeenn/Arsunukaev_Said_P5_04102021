@@ -6,7 +6,8 @@ const id = urlParams.get('id');
 
 let product;
 //=====================================================Afficher le produit sélectionné
-function generateProductHTML(product) {
+// function generateProductHTML(product) {
+generateProductHTML = product => {
   const img = document.createElement("img");
   img.src = `${product.imageUrl}`;
   img.setAttribute("alt", `image ${product.name}`);
@@ -24,33 +25,38 @@ function generateProductHTML(product) {
 };
 
 fetch(`${url}/${id}`)
-  .then(function (response) {
-    return response.json();
-  }).then(function (data) {
-    generateProductHTML(data);
-    product = data;
-  })
-  // .then(cartHTML)
-  .catch(function (error) {
-    console.log(error)
-  });
+  .then(res => res.json().then(data => generateProductHTML(data)))
+  .catch(error => console.log(error))
+
+
+// fetch(`${url}/${id}`)
+//   .then(function (response) {
+//     return response.json();
+//   }).then(function (data) {
+//     generateProductHTML(data);
+//     product = data;
+//   })
+//   // .then(cartHTML)
+//   .catch(function (error) {
+//     console.log(error)
+//   });
 
 let btnAdd = document.querySelector('#addToCart');
-btnAdd.addEventListener("click", function () {
+btnAdd.addEventListener('click', function () {
 
   let name = document.querySelector('#title').innerText;
   let description = document.querySelector('#description').innerText;
-  let image = document.querySelector('.item__img');
-  let color = document.querySelector('#colors');
+  let image = document.querySelector('.item__img').getAttribute('src');
+  let color = document.querySelector('#colors').value;
   let price = parseInt(document.querySelector('#price').innerText);
   let products = JSON.parse(localStorage.getItem('products')) || [];
-  let productIndex = products.findIndex(function (element) {
-    console.log(element.price);
-    return element.id === id;
-  })
-  console.log(productIndex);
-  console.log(products);
-  console.log(products[productIndex]);
+
+  // let productIndex = products.findIndex(function (element) {
+  //   console.log(element.price);
+  //   return element.id === id;
+  // })
+  let productIndex = products.findIndex(elt => elt.id === id);
+
   if (productIndex === -1) {
     products.push({
       id,
@@ -75,22 +81,17 @@ btnAdd.addEventListener("click", function () {
   console.log(products);
   localStorage.setItem('products', JSON.stringify(products));
 
-  // const total = products;
-  // for (let i = 0; i < total.length; i++) {
-  //   total[i](count => {
-  //     console.log(count);
-  //     return count
-  //   })    
-  // }
-
-  let total = products.reduce(function (prev, cur) {
+  // product.nombres.forEach( function (product, count) {
+  //   const nombre = products;
+  // });
+  let nombre = products.reduce(function (prev, cur) {
     console.log(prev);
     console.log(cur);
     return prev + cur.count;
   }, 0)
-  console.log(total);
-  document.querySelector('#quantity').innerHTML = total;
-  localStorage.setItem('number', total)
+  console.log(nombre);
+  document.querySelector('#quantity').innerText = nombre;
+  localStorage.setItem('number', nombre)
 
   alert(name + " (" + color + ") a été ajouté au panier !");
 
