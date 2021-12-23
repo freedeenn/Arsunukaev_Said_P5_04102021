@@ -42,7 +42,7 @@ fetch(`${url}/${id}`)
 //   });
 
 let btnAdd = document.querySelector('#addToCart');
-btnAdd.addEventListener('click', function () {
+btnAdd.addEventListener('click', () => {
 
   let name = document.querySelector('#title').innerText;
   let description = document.querySelector('#description').innerText;
@@ -81,17 +81,16 @@ btnAdd.addEventListener('click', function () {
   console.log(products);
   localStorage.setItem('products', JSON.stringify(products));
 
-  // product.nombres.forEach( function (product, count) {
-  //   const nombre = products;
-  // });
-  let nombre = products.reduce(function (prev, cur) {
-    console.log(prev);
-    console.log(cur);
-    return prev + cur.count;
-  }, 0)
-  console.log(nombre);
-  document.querySelector('#quantity').innerText = nombre;
-  localStorage.setItem('number', nombre)
+  // products.forEach(product => product + product.count);
+
+  // let nombre = products.reduce(function (prev, cur) {
+  //   console.log(prev);
+  //   console.log(cur);
+  //   return prev + cur.count;
+  // }, 0)
+  // console.log(nombre);
+  // document.querySelector('#quantity').innerText = nombre;
+  // localStorage.setItem('number', nombre)
 
   alert(name + " (" + color + ") a été ajouté au panier !");
 

@@ -49,7 +49,7 @@ if (localStorage.getItem('products') !== null) {
 
   // =====================parcurire les produits dans localStorage================================
 
-  products.forEach((product) => {
+  products.forEach(product => {
 
     //====================Selectionner la div qui va contenir le outerHTML du container===========
 
@@ -184,23 +184,21 @@ if (localStorage.getItem('products') !== null) {
 
 
 
-  //=====================================supprimer produit============================================
+//=====================================supprimer produit============================================
 
-  // let supprimer_article = document.querySelectorAll('.deleteItem');
 
-  // // for (let i = 0; i < supprimer_article.length; i++) {
-  // //   supprimer_article[i].addEventListener('click', (event) => {
+let supprimer_article = document.querySelectorAll('.deleteItem');
+for (let i = 0; i < supprimer_article.length; i++) {
+  supprimer_article[i].addEventListener('click', (event) => {
+    // Supprimer d'abord l'article du localStorage avant d'executer le code suivant
+    const products = JSON.parse(localStorage.getItem('products'));
+    localStorage.removeItem('products');
+    console.log(products);
+    const article = supprimer_article[i];
 
-  // supprimer_article.addEventListener('click', (event) => {
-  //   // Supprimer d'abord l'article du localStorage avant d'executer le code suivant
-  //   const products = JSON.parse(localStorage.getItem('products'));
-  //   localStorage.removeItem('element');
-  //   console.log(products);
-  //   const article = supprimer_article.parentElement.parentElement.parentElement.parentElement;
-
-  //   article.remove();
-  // });
-
+    article.remove();
+  })
+};
 
   // let order = document.querySelector('#order');
   // order.addEventListener('click', function () {
