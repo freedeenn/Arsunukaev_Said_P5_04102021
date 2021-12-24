@@ -67,7 +67,7 @@ if (localStorage.getItem('products') !== null) {
     article.appendChild(image);
 
     let img = document.createElement('img');
-    img.src = `${product.imageUrl}`;
+    img.src = `${product.image}`;
     img.setAttribute("alt", `image ${product.name}`);
     image.appendChild(img);
 

@@ -46,16 +46,19 @@ btnAdd.addEventListener('click', () => {
 
   let name = document.querySelector('#title').innerText;
   let description = document.querySelector('#description').innerText;
-  let image = document.querySelector('.item__img').getAttribute('src');
+  let image = document.querySelector('.item__img img').src;
+  // let image = document.querySelector('.item__img').getAttribute('src');
   let color = document.querySelector('#colors').value;
+  console.log(image, color);
   let price = parseInt(document.querySelector('#price').innerText);
   let products = JSON.parse(localStorage.getItem('products')) || [];
-
+  let number = document.querySelector('#quantity').value;
+  console.log(number);
   // let productIndex = products.findIndex(function (element) {
   //   console.log(element.price);
   //   return element.id === id;
   // })
-  let productIndex = products.findIndex(elt => elt.id === id);
+  let productIndex = products.findIndex(elt => elt.id === id && elt.color === color);
 
   if (productIndex === -1) {
     products.push({
