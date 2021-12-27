@@ -45,7 +45,7 @@
 
 if (localStorage.getItem('products') !== null) {
 
-  const products = JSON.parse(localStorage.products);
+  let products = JSON.parse(localStorage.products);
 
   // =====================parcurire les produits dans localStorage================================
 
@@ -161,6 +161,20 @@ if (localStorage.getItem('products') !== null) {
     supprimer.innerText = 'supprimer';
     cart__item__content__settings__delete.appendChild(supprimer);
   });
+
+  //=====================================supprimer produit============================================
+
+  let supprimer_article = document.querySelectorAll('.deleteItem');
+  for (let i = 0; i < supprimer_article.length; i++) {
+    supprimer_article[i].addEventListener('click', (event) => {
+      event.preventDefault();
+      let supprission = products[i].id = products[i].color;
+      products = products.filter(el => el.id !== supprission);
+      localStorage.setItem('products', JSON.stringify(products));
+      const article = supprimer_article[i].parentElement.parentElement.parentElement.parentElement;
+      article.remove();
+    });
+  }
 }
 
 //======================================Calculer prix total et quantité==========================================
@@ -170,7 +184,7 @@ if (localStorage.getItem('products') !== null) {
   const products = JSON.parse(localStorage.products);
   console.log(products);
   let totalPriceCalcul = 0;
-  let totalCount = 0;
+  let totalCount = "";
 
   products.forEach(product => {
     totalPriceCalcul += product.price * product.count;
@@ -184,21 +198,32 @@ if (localStorage.getItem('products') !== null) {
 
 
 
-//=====================================supprimer produit============================================
 
 
-let supprimer_article = document.querySelectorAll('.deleteItem');
-for (let i = 0; i < supprimer_article.length; i++) {
-  supprimer_article[i].addEventListener('click', (event) => {
+
+
+
+
+
+
+
+
+
+
+
+// let supprimer_article = document.querySelectorAll('.deleteItem');
+// for (let i = 0; i < supprimer_article.length; i++) {
+//   supprimer_article[i].addEventListener('click', (event) => {
+//     event.preventDefault();
     // Supprimer d'abord l'article du localStorage avant d'executer le code suivant
-    const products = JSON.parse(localStorage.getItem('products'));
-    localStorage.removeItem('products');
-    console.log(products);
-    const article = supprimer_article[i];
+//     const products = JSON.parse(localStorage.getItem('products'));
+//     localStorage.removeItem('products');
+//     console.log(products);
+//     const article = supprimer_article[i].parentElement.parentElement.parentElement.parentElement;
 
-    article.remove();
-  })
-};
+//     article.remove();
+//   });
+// }
 
   // let order = document.querySelector('#order');
   // order.addEventListener('click', function () {

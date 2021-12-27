@@ -68,7 +68,7 @@ btnAdd.addEventListener('click', () => {
       name,
       description,
       color,
-      count: 1
+      count: number
     })
   } else {
     products[productIndex] = {
@@ -78,7 +78,7 @@ btnAdd.addEventListener('click', () => {
       name,
       description,
       color,
-      count: products[productIndex].count + 1
+      count: + products[productIndex].count  
     }
   }
   console.log(products);
