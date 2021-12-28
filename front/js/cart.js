@@ -67,7 +67,7 @@ if (localStorage.getItem('products') !== null) {
     article.appendChild(image);
 
     let img = document.createElement('img');
-    img.src = `${product.image}`;
+    img.src = `${product.imageUrl}`;
     img.setAttribute("alt", `image ${product.name}`);
     image.appendChild(img);
 
@@ -128,7 +128,7 @@ if (localStorage.getItem('products') !== null) {
     // input pour la quantité
     let input = document.createElement('input');
     input.type = 'number';
-    input.setAttribute('value', product.count);
+    input.setAttribute('value', product.number);
     input.min = "1";
     input.max = "99"
     qte.appendChild(input);
@@ -164,14 +164,17 @@ if (localStorage.getItem('products') !== null) {
 
   //=====================================supprimer produit============================================
 
-  let supprimer_article = document.querySelectorAll('.deleteItem');
-  for (let i = 0; i < supprimer_article.length; i++) {
-    supprimer_article[i].addEventListener('click', (event) => {
+  let btnDelete = document.querySelectorAll('.deleteItem');
+
+  for (let i = 0; i < btnDelete.length; i++) {
+    btnDelete[i].addEventListener('click', (event) => {
       event.preventDefault();
-      let supprission = products[i].id = products[i].color;
-      products = products.filter(el => el.id !== supprission);
+      alert(products[i].name + " (" + products[i].color + ") a été supprimer du panier !");
+
+      let suppression = products[i].id = products[i].color;
+      products = products.filter(el => el.id !== suppression);
       localStorage.setItem('products', JSON.stringify(products));
-      const article = supprimer_article[i].parentElement.parentElement.parentElement.parentElement;
+      const article = btnDelete[i].parentElement.parentElement.parentElement.parentElement;
       article.remove();
     });
   }
@@ -184,11 +187,11 @@ if (localStorage.getItem('products') !== null) {
   const products = JSON.parse(localStorage.products);
   console.log(products);
   let totalPriceCalcul = 0;
-  let totalCount = "";
+  let totalCount = 0;
 
   products.forEach(product => {
-    totalPriceCalcul += product.price * product.count;
-    totalCount += product.count;
+    totalPriceCalcul += product.price * product.number;
+    totalCount += product.number;
     // ====afficher prix total=========
     totalPrice.innerText = `${totalPriceCalcul}`;
     // ====afficher quantité total=====
