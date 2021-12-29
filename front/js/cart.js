@@ -1,46 +1,3 @@
-
-//========================Recuperer produit de localStorage=======================================
-
-// if (localStorage.getItem('products') !== null) {
-
-//   const products = JSON.parse(localStorage.products);
-
-//   // =====================parcurire les produits dans localStorage================================
-//   let html = "";
-//   products.forEach((product) => {
-
-//     html += `
-
-//       <article class="cart__item" data - id=${product._id}>
-//         <div class="cart__item__img">
-//           <img src=${product.imageUrl} alt="Photographie d'un canapé">
-//             </div>
-//           <div class="cart__item__content">
-//             <div class="cart__item__content__titlePrice">
-//               <h2>${product.name}</h2>
-//               <p>${product.price}</p>
-//             </div>
-//             <div class="cart__item__content__settings">
-//               <div class="cart__item__content__settings__quantity">
-//                 <p>Qté : </p>
-//                 <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value=${product.nomber}>
-//                 </div>
-//                 <div class="cart__item__content__settings__delete">
-//                   <p class="deleteItem">Supprimer</p>
-//                 </div>
-//               </div>
-//             </div>
-//           </article>
-
-//           `;
-
-//   });
-
-//   document.querySelector("#cart__items").innerHTML = html;
-// };
-
-
-
 //========================Recuperer produit de localStorage=======================================
 
 if (localStorage.getItem('products') !== null) {
@@ -199,26 +156,11 @@ if (localStorage.getItem('products') !== null) {
   });
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // let supprimer_article = document.querySelectorAll('.deleteItem');
 // for (let i = 0; i < supprimer_article.length; i++) {
 //   supprimer_article[i].addEventListener('click', (event) => {
 //     event.preventDefault();
-    // Supprimer d'abord l'article du localStorage avant d'executer le code suivant
+// Supprimer d'abord l'article du localStorage avant d'executer le code suivant
 //     const products = JSON.parse(localStorage.getItem('products'));
 //     localStorage.removeItem('products');
 //     console.log(products);
@@ -227,33 +169,96 @@ if (localStorage.getItem('products') !== null) {
 //     article.remove();
 //   });
 // }
+// let products;
+// let order = document.querySelector('#order');
+// order.addEventListener('click', e => {
+//   e.preventDefault();
 
-  // let order = document.querySelector('#order');
-  // order.addEventListener('click', function () {
+//   const formulair = {
+//     firstName: document.querySelector('#firstName').value,
+//     lastName: document.querySelector('#lastName').value,
+//     address: document.querySelector('#address').value,
+//     city: document.querySelector('#city').value,
+//     email: document.querySelector('#email').value
+//   }
+//   localStorage.setItem('formulair', JSON.stringify(formulair));
 
-  //   fetch("http://localhost:3000/api/products", {
-  //     method: "POST",
-  //     headers: {
-  //       'Accept': 'application/json',
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({
-  //       products: products
-  //     })
-  //   })
-  //     .then(function (response) {
-  //       return response.json();
-  //     }).then(function (response) {
-  //       console.log(response)
-  //       window.location.replace(`confirm.html?orderId=${response.orderId}`)
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error)
-  //     });
+//   const toSend = {
+//     products,
+//     formulair
+//   }
+//   console.log(toSend);
+// })
 
-  //   // Enlever les produits du localstorage après validation de la commande
-  //   localStorage.clear();
-  // })
+// Récupérer les informations de contact de l'utilisateur à la validation
+let submit = document.querySelector('#order');
+submit.addEventListener('click', e => {
+  e.preventDefault();
+  // Vérifier si tous les champs sont bien remplis à la validation
+
+  let myForm = document.querySelector('.cart__order__form');
+
+
+  let empty = document.querySelector('.cart__order');
+  let email = document.querySelector('#email').value;
+  let pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+  let formElements = document.querySelectorAll('.cart__order__form input');
+  let hasEmptyValue = false;
+  formElements.forEach(function (element) {
+    console.log(element.getAttribute('required'));
+    if (element.getAttribute("required") === 'true' && !element.value) {
+      hasEmptyValue = true;
+    }
+  })
+  if (!myForm || myForm.className == 'invalid' || !email.match(pattern) || hasEmptyValue) {
+    empty.innerText = 'Veuillez renseigner tous les champs obligatoires au format valide';
+    empty.style.color = '#F04824';
+    // return false;
+  } else {
+    let formData = new FormData(myForm);
+    console.log(formData);
+    let products = JSON.parse(localStorage.getItem('products'));
+    let articles = [];
+    let totalPrice = 0;
+
+    products.forEach(product => {
+      totalPrice += product.count * product.price;
+      for (let i = 0; i < product.count; i++) {
+        articles.push(product.id);
+      }
+    })
+
+    fetch("http://localhost:3000/api/products/order", {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        contact: {
+          firstName: formData.get('firstName'),
+          lastName: formData.get('lastName'),
+          address: formData.get('address'),
+          city: formData.get('city'),
+          email: formData.get('email')
+        },
+        articles: articles
+      })
+    })
+      .then(function (response) {
+        return response.json();
+      }).then(function (response) {
+        console.log(response)
+        window.location.replace(`confirmation.html?orderId=${response.orderId}&totalprice=${totalPrice}`)
+      })
+      .catch(function (error) {
+        console.log(error)
+      });
+
+    // Enlever les produits du localstorage après validation de la commande
+    // localStorage.clear();
+  }
+})
 
 
 
