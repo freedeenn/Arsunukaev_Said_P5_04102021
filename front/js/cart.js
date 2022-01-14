@@ -80,12 +80,13 @@ if (localStorage.getItem("products") !== null) {
 		cart__item__content__settings__quantity.appendChild(qte);
 
 		// input pour la quantité
-		let input = document.createElement("input");
-		input.type = "number";
-		input.setAttribute("value", product.number);
-		input.min = "1";
-		input.max = "99";
-		qte.appendChild(input);
+		let qtt = document.createElement("input");
+		qtt.id = "inputId";
+		qtt.type = "number";
+		qtt.setAttribute("value", product.number);
+		qtt.min = "1";
+		qtt.max = "99";
+		qte.appendChild(qtt);
 
 		// ==================================div delete===============================================
 
@@ -101,6 +102,43 @@ if (localStorage.getItem("products") !== null) {
 		supprimer.innerText = "supprimer";
 		cart__item__content__settings__delete.appendChild(supprimer);
 	});
+	// products.forEach((product) => {
+	// 	function changeQtt() {
+	// 		let itemQtt = document.querySelectorAll(".itemQuantity");
+	// 		for (let j = 0; j < itemQtt.length; j++) {
+	// 			itemQtt[j].addEventListener("change", (event) => {
+	// 				event.preventDefault();
+
+	// 				let products = JSON.parse(localStorage.getItem("products"));
+	// 				// sélection de la nouvelle quantité...
+	// 				// ... qu'on va sauvegarder dans un nouveau tableau
+	// 				// avec les autres éléments du localStorage
+	// 				let newItemQtt = itemQtt[j].value;
+	// 				const newLocalStorage = {
+	// 					_id: product[j]._id,
+	// 					imageUrl: product[j].imageUrl,
+	// 					alt: product[j].alt,
+	// 					name: product[j].name,
+	// 					color: product[j].color,
+	// 					price: product[j].price,
+	// 					number: newItemQtt[j].value, // avec la nouvelle quantité souhaitée
+	// 				};
+	// 				console.log(itemNewQtt);
+
+	// 				// actualiser le localStorage avec les nouvelles données récupérées...
+	// 				product[j] = newLocalStorage;
+	// 				// ...en transformant les Js en Json
+	// 				localStorage.setItem("products", JSON.stringify(products));
+
+	// 				// avertir de la modification et mettre à jour les totaux
+	// 				// alert("Votre panier est à jour.");
+	// 				// totalArticles();
+	// 				// priceAmount();
+	// 			});
+	// 		}
+	// 	}
+	// 	changeQtt();
+	// });
 
 	//=====================================supprimer produit============================================
 
@@ -121,52 +159,45 @@ if (localStorage.getItem("products") !== null) {
 				e.target.parentElement.parentElement.parentElement.parentElement.id
 			);
 
-			alert(
-				products[i].name +
-					" (" +
-					products[i].color +
-					") a été supprimer du panier !"
-			);
-			products.forEach((product) => {
-				totalPriceCalcul += product.price * product.number;
-				totalCount += product.number;
-				// ====afficher prix total=========
-				totalPrice.innerText = `${totalPriceCalcul}`;
-				// ====afficher quantité total=====
-				totalQuantity.innerText = `${totalCount}`;
-			});
+			// alert(
+			// 	products[i].name +
+			// 		" (" +
+			// 		products[i].color +
+			// 		") a été supprimer du panier !"
+			// );
 		});
 	}
+}
 
-	class store {
-		static getProducts() {
-			let products;
-			if (localStorage.getItem("products") === null) {
-				products = [];
-			} else {
-				products = JSON.parse(localStorage.getItem("products"));
+class store {
+	static getProducts() {
+		let products;
+		if (localStorage.getItem("products") === null) {
+			products = [];
+		} else {
+			products = JSON.parse(localStorage.getItem("products"));
+		}
+		return products;
+	}
+
+	static addProduct(product) {
+		const products = store.getProducts();
+		products.push(product);
+		localStorage.setItem("products", JSON.stringify(products));
+	}
+
+	static removeProduct(_id) {
+		const products = store.getProducts();
+
+		products.forEach((product, index) => {
+			if (product._id === _id) {
+				products.splice(index, 1);
 			}
-			return products;
-		}
-
-		static addProduct(product) {
-			const products = store.getProducts();
-			products.push(product);
-			localStorage.setItem("products", JSON.stringify(products));
-		}
-
-		static removeProduct(_id) {
-			const products = store.getProducts();
-
-			products.forEach((product, index) => {
-				if (product._id === _id) {
-					products.splice(index, 1);
-				}
-			});
-			localStorage.setItem("products", JSON.stringify(products));
-		}
+		});
+		localStorage.setItem("products", JSON.stringify(products));
 	}
 }
+
 // }// window.location.href = "cart.html";
 
 //======================================Calculer prix total et quantité==========================================
@@ -174,23 +205,109 @@ if (localStorage.getItem("products") !== null) {
 if (localStorage.getItem("products") !== null) {
 	const products = JSON.parse(localStorage.products);
 	console.log(products);
-	let totalPriceCalcul = 0;
-	let totalCount = 0;
+	function prixTotal() {
+		let totalPriceCalcul = [];
+		let totalCount = 0;
 
-	products.forEach((product) => {
-		totalPriceCalcul += product.price * product.number;
-		totalCount += product.number;
-		// ====afficher prix total=========
-		totalPrice.innerText = `${totalPriceCalcul}`;
-		// ====afficher quantité total=====
-		totalQuantity.innerText = `${totalCount}`;
-	});
-	function updateSpan() {
-		document.getElementById("totalPrice").innerText;
-		setInterval("updateSpan()", 2000);
+		products.forEach((product) => {
+			totalPriceCalcul += product.price * product.number;
+			totalCount += product.number;
+			// ====afficher prix total=========
+			totalPrice.innerText = `${totalPriceCalcul}`;
+			// ====afficher quantité total=====
+			totalQuantity.innerText = `${totalCount}`;
+		});
 	}
-	updateSpan();
+	prixTotal();
 }
+// const qtt = document.getElementById("inputId");
+// change = (product) => {
+let products = JSON.parse(localStorage.getItem("products"));
+
+// let totalCount = 0;
+// totalCount += product.number;
+products.forEach((product) => {
+	const qtt = document.querySelectorAll("#inputId");
+	console.log(qtt);
+	for (let i = 0; i < qtt.length; i++) {
+		qtt[i].addEventListener("change", (e) => {
+			const number = Number(e.target.value);
+			changeQuantity(products[i]._id, number);
+			products[i].number = number;
+			// window.location.href = "cart.html";
+		});
+	}
+
+	function changeQuantity(_id, qtt) {
+		// products[i].qtt = qtt;
+		// const indexProduct = products.findIndex((product) => product._id === _id);
+
+		localStorage.setItem("products", JSON.stringify(products));
+	}
+
+	// function prepareIdProducts() {
+	// 	const productsI = [];
+	// 	console.log(products.length);
+	// 	products.forEach((product, i) => {
+	// 		for (let j = 0; j < products[i].number; j++) {
+	// 			console.log(products[i]._id);
+	// 			productsI.push(products[i]._id);
+	// 		}
+	// 	});
+	// 	return productsI;
+	// }
+
+	// let index = products.findIndex((elt) => elt._id === product._id);
+	// qtt.onchange = function (product) {
+	// 	totalQuantity.innerText = qtt.value;
+	// 	let newQtt = qtt.value;
+	// 	// const newLocalStorage = [
+	// 	products[index].number = newQtt;
+
+	// 	// products.push(products.number); // avec la nouvelle quantité souhaitée
+	// 	// ];
+
+	// 	// actualiser le localStorage avec les nouvelles données récupérées...
+	// 	// products = newLocalStorage;
+	// 	// ...en transformant les Js en Json
+	// 	localStorage.setItem("products", JSON.stringify(products));
+	// 	console.log(products[index]);
+	// };
+});
+// };
+// change();
+// const qtt = document.getElementById("inputId");
+// change = (product) => {
+// 	let totalCount = 0;
+
+// 	qtt.onchange = function () {
+// 		const products = JSON.parse(localStorage.getItem("products"));
+// 		let newQtt = qtt.value;
+// 		const newLocalStorage = [{ color: product.color }, { number: newQtt }];
+// 		products = newLocalStorage;
+// 		localStorage.setItem("products", JSON.stringify(products));
+// 		totalQuantity.innerText = qtt.value;
+// 	};
+// 	console.log(newQtt);
+// };
+
+// totalCount += product.number;
+
+// let newQtt = qtt.value;
+// const newLocalStorage = [
+// 	_id,
+// 	imageUrl,
+// 	altTxt,
+// 	name,
+// 	color,
+// 	price,
+// 	description,
+// 	newQtt, // avec la nouvelle quantité souhaitée
+// ];
+
+// // actualiser le localStorage avec les nouvelles données récupérées...
+// products = newLocalStorage;
+// // ...en transformant les Js en Json
 
 /***********************************/
 //DEMANDER LES INFOS DE L'UTILISATEUR//
@@ -298,10 +415,19 @@ function postForm() {
 
 		// je mets les valeurs du formulaire et les produits sélectionnés
 		// dans un objet...
-		let products = JSON.parse(localStorage.getItem("products"));
+		// let products = JSON.parse(localStorage.getItem("products"));
+		store.getProducts();
+		let productsId = [];
+		products.forEach((product) => {
+			productsId.push(product._id);
+			// products = [product._id];
+
+			console.log(productsId);
+		});
+
 		const sendFormData = {
 			contact,
-			products,
+			productsId,
 		};
 
 		// j'envoie le formulaire + localStorage (sendFormData)
@@ -311,7 +437,6 @@ function postForm() {
 			method: "POST",
 			body: JSON.stringify(sendFormData),
 			headers: {
-				Accept: "application/json",
 				"Content-Type": "application/json",
 			},
 		};
@@ -334,12 +459,12 @@ postForm();
 // // /////////////////////////////////////////////////////////
 //     // je garde les saisies dans les champs du formulaire
 //     // même après avoir changé de page
-// const dataLocalStorage = localStorage.getItem("contact");
-// const dataLocalStorageObjet = JSON.parse(dataLocalStorage);
-// document.getElementById("firstName").value = dataLocalStorageObjet.firstName;
-// document.getElementById("lastName").value = dataLocalStorageObjet.lastName;
-// document.getElementById("address").value = dataLocalStorageObjet.address;
-// document.getElementById("city").value = dataLocalStorageObjet.city;
-// document.getElementById("email").value = dataLocalStorageObjet.email;
+const dataLocalStorage = localStorage.getItem("contact");
+const dataLocalStorageObjet = JSON.parse(dataLocalStorage);
+document.getElementById("firstName").value = dataLocalStorageObjet.firstName;
+document.getElementById("lastName").value = dataLocalStorageObjet.lastName;
+document.getElementById("address").value = dataLocalStorageObjet.address;
+document.getElementById("city").value = dataLocalStorageObjet.city;
+document.getElementById("email").value = dataLocalStorageObjet.email;
 
 // // ////////////////////////////////////////////////////////
