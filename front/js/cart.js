@@ -125,13 +125,13 @@ for (let i = 0; i < btnDelete.length; i++) {
 			btnDelete[i].parentElement.parentElement.parentElement.parentElement;
 		article.remove();
 
-		// alert(
-		// 	products[i].name +
-		// 		" (" +
-		// 		products[i].color +
-		// 		") a été supprimer du panier !"
-		// );
-		// window.location.href = "cart.html";
+		alert(
+			products[i].name +
+				" (" +
+				products[i].color +
+				") a été supprimer du panier !"
+		);
+		window.location.href = "cart.html";
 	});
 }
 
@@ -168,7 +168,6 @@ class store {
 
 if (localStorage.getItem("products") !== null) {
 	const products = JSON.parse(localStorage.products);
-	console.log(products);
 	function prixTotal() {
 		let totalPriceCalcul = 0;
 		let totalCount = 0;
@@ -177,7 +176,6 @@ if (localStorage.getItem("products") !== null) {
 			product.price *= product.number;
 			totalPriceCalcul += product.price;
 			totalCount += product.number;
-			console.log(product.price);
 
 			// ====afficher prix total=========
 			totalPrice.innerText = `${totalPriceCalcul}`;
@@ -190,7 +188,6 @@ if (localStorage.getItem("products") !== null) {
 
 products.forEach((product) => {
 	const quantity = document.querySelectorAll("#inputId");
-	console.log(quantity);
 	for (let i = 0; i < quantity.length; i++) {
 		quantity[i].addEventListener("change", (e) => {
 			const number = Number(e.target.value);
@@ -207,7 +204,6 @@ products.forEach((product) => {
 				totalPrice.innerText = `${totalPriceCalcul}`;
 				// ====afficher quantité total=====
 				totalQuantity.innerText = `${totalCount}`;
-				console.log(product.price);
 			});
 		});
 	}
@@ -355,19 +351,15 @@ function postForm() {
 
 		// je mets les valeurs du formulaire et les produits sélectionnés
 		// dans un objet...
-		let products = JSON.parse(localStorage.getItem("products"));
-		let productsId = "";
-		products.forEach((product) => {
-			productsId = [product._id];
-			// productsId.push(product._id);
-			// products = [product._id];
-
-			console.log(productsId);
+		let produits = JSON.parse(localStorage.getItem("products"));
+		let products = [];
+		produits.forEach((product) => {
+			products.push(product._id);
 		});
 
 		const sendFormData = {
 			contact,
-			productsId,
+			products,
 		};
 
 		// j'envoie le formulaire + localStorage (sendFormData)
@@ -385,9 +377,9 @@ function postForm() {
 			.then((res) => res.json())
 			.then((data) => {
 				localStorage.setItem("orderId", data.orderId);
-				// if (validControl()) {
-				// 	document.location.href = "confirmation.html?id=" + data.orderId;
-				// }
+				if (validControl()) {
+					document.location.href = "confirmation.html?id=" + data.orderId;
+				}
 				console.log(data);
 			});
 	}); // fin eventListener postForm

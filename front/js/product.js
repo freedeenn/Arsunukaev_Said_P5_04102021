@@ -46,7 +46,7 @@ addProduct = (product) => {
 			};
 		}
 		localStorage.setItem("products", JSON.stringify(products));
-		// alert(product.name + " (" + color + ") a été ajouté au panier !");
+		alert(product.name + " (" + color + ") a été ajouté au panier !");
 	});
 };
 
