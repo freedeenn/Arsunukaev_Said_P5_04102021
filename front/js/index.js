@@ -14,8 +14,8 @@ const url = "http://localhost:3000/api/products";
  * 
 */
 
-// function generateProductHTML(product) {
-displayProduct = (product) => {
+// function displayProduct affiche les produits=======
+const displayProduct = (product) => {
 	//=========================================================Selectionner la div qui va contenir le outerHTML du container
 	let container = document.querySelector("#items");
 
@@ -60,11 +60,12 @@ displayProduct = (product) => {
 	info.appendChild(span);
 };
 
-//gérer les données produit===/===parcourir les produits===/===afficher les produits
-handleProductsData = (products) =>
-	products.forEach((product) => displayProduct(product));
-
+//gérer les données des produits===/===parcourir les produits===/===afficher les produits
 fetch(url)
 	.then((res) => res.json())
-	.then(handleProductsData)
+	.then(
+		(handleProductsData = (products) => {
+			products.forEach((product) => displayProduct(product));
+		})
+	)
 	.catch((error) => console.log(error));

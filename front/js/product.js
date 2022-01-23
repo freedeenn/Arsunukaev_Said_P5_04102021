@@ -5,7 +5,7 @@ const id = urlParams.get("id");
 
 let product;
 //=====================================================Afficher le produit sélectionné
-displayProduct = (product) => {
+const displayProduct = (product) => {
 	const img = document.createElement("img");
 	img.src = `${product.imageUrl}`;
 	img.setAttribute("alt", `image ${product.name}`);
@@ -14,6 +14,7 @@ displayProduct = (product) => {
 	document.getElementById("price").innerText = `${product.price}`;
 	document.getElementById("description").innerText = `${product.description}`;
 
+	// ====crée et afficher une option choix de couleur=========
 	product.colors.forEach((color) => {
 		const option = document.createElement("option");
 		option.value = color;
@@ -22,7 +23,7 @@ displayProduct = (product) => {
 	});
 };
 
-addProduct = (product) => {
+const addProduct = (product) => {
 	// On récupère l'élément sur lequel on veut détecter le clic
 	const btnAdd = document.querySelector("#addToCart");
 	// On écoute l'événement click, notre callback prend un paramètre que nous avons appelé event ici
@@ -32,18 +33,15 @@ addProduct = (product) => {
 
 		const color = document.querySelector("#colors").value;
 		const nb = parseInt(document.getElementById("quantity").value);
-		const addproduct = { ...product, number: nb, color: color };
+		const productToAdd = { ...product, number: nb, color: color };
 		const products = JSON.parse(localStorage.getItem("products")) || [];
 		let index = products.findIndex(
 			(elt) => elt._id === product._id && elt.color === color
 		);
 		if (index === -1) {
-			products.push(addproduct);
+			products.push(productToAdd);
 		} else {
-			products[index] = {
-				...products[index],
-				number: products[index].number + nb,
-			};
+			products[index].number += nb;
 		}
 		localStorage.setItem("products", JSON.stringify(products));
 		alert(product.name + " (" + color + ") a été ajouté au panier !");

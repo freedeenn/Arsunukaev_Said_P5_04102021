@@ -1,124 +1,125 @@
-//========================Recuperer produit de localStorage=======================================
+//========================Recuperer les produits de localStorage=======================================
 const products = JSON.parse(localStorage.getItem("products"));
-let html = "";
+
+//========================si 0 produits dans le panier afficher le message========================
 if (products === null || products == 0) {
-	html += `
-	<div class="cart__empty">
-	  <p>Votre panier est vide ! <br> Merci de sélectionner des produits depuis la page d'accueil</p>
-	</div>`;
-
-	document.querySelector("#cart__items").innerHTML = html;
+	function getMessage() {
+		let container = document.getElementById("cart__items");
+		let empty = document.createElement("div");
+		empty.className = "cart__empty";
+		empty.innerText =
+			"Votre panier est vide !\n Merci de sélectionner les produits depuis la page d'accueil";
+		empty.style.textAlign = "center";
+		container.appendChild(empty);
+	}
+	getMessage();
 } else {
-	// =====================parcurire les produits dans localStorage================================
+	// =====================parcourir les produits dans localStorage================================
+	function getProducts() {
+		products.forEach((product) => {
+			//====================Selectionner la div qui va contenir le outerHTML du container===========
 
-	products.forEach((product) => {
-		//====================Selectionner la div qui va contenir le outerHTML du container===========
+			let container = document.querySelector("#cart__items");
 
-		let container = document.querySelector("#cart__items");
+			//====================Création de la balise article et ajout d'une classe=====================
 
-		//====================Création de la balise article et ajout d'une classe=====================
+			let article = document.createElement("article");
+			article.id = `${product._id}`;
+			article.className = "cart__item";
+			container.appendChild(article);
 
-		let article = document.createElement("article");
-		article.id = `${product._id}`;
-		article.className = "cart__item";
-		container.appendChild(article);
+			let image = document.createElement("div");
+			image.className = "cart__item__img";
+			article.appendChild(image);
 
-		let image = document.createElement("div");
-		image.className = "cart__item__img";
-		article.appendChild(image);
+			let img = document.createElement("img");
+			img.src = `${product.imageUrl}`;
+			img.setAttribute("alt", `image ${product.name}`);
+			image.appendChild(img);
 
-		let img = document.createElement("img");
-		img.src = `${product.imageUrl}`;
-		img.setAttribute("alt", `image ${product.name}`);
-		image.appendChild(img);
+			// =================================div content===============================================
+			let cart__item__content = document.createElement("div");
+			cart__item__content.className = "cart__item__content";
+			article.appendChild(cart__item__content);
 
-		// =================================div content===============================================
+			// =================================div title and price=======================================
+			let cart__item__content__titlePrice = document.createElement("div");
+			cart__item__content__titlePrice.className =
+				"cart__item__content__titlePrice";
+			cart__item__content.appendChild(cart__item__content__titlePrice);
 
-		let cart__item__content = document.createElement("div");
-		cart__item__content.className = "cart__item__content";
-		article.appendChild(cart__item__content);
+			let title = document.createElement("h2");
+			title.className = "product-name";
+			title.innerText = `${product.name}`;
+			cart__item__content__titlePrice.appendChild(title);
 
-		// =================================div title and price=======================================
+			let price = document.createElement("p");
+			price.className = "price";
+			price.innerText = `Prix : ${product.price}`;
+			cart__item__content__titlePrice.appendChild(price);
 
-		let cart__item__content__titlePrice = document.createElement("div");
-		cart__item__content__titlePrice.className =
-			"cart__item__content__titlePrice";
-		cart__item__content.appendChild(cart__item__content__titlePrice);
+			let color = document.createElement("p");
+			color.className = "color";
+			color.innerText = `Couleur : ${product.color}`;
+			cart__item__content__titlePrice.appendChild(color);
+			// ===================================div settings============================================
 
-		let title = document.createElement("h2");
-		title.className = "product-name";
-		title.innerText = `${product.name}`;
-		cart__item__content__titlePrice.appendChild(title);
+			let cart__item__content__settings = document.createElement("div");
+			cart__item__content__settings.className = "cart__item__content__settings";
+			cart__item__content.appendChild(cart__item__content__settings);
 
-		let price = document.createElement("p");
-		price.className = "price";
-		price.innerText = `Prix : ${product.price}`;
-		cart__item__content__titlePrice.appendChild(price);
+			// ===================================div quantity============================================
+			let cart__item__content__settings__quantity =
+				document.createElement("div");
+			cart__item__content__settings__quantity.className =
+				"cart__item__content__settings__quantity";
+			cart__item__content__settings.appendChild(
+				cart__item__content__settings__quantity
+			);
 
-		let color = document.createElement("p");
-		color.className = "color";
-		color.innerText = `Couleur : ${product.color}`;
-		cart__item__content__titlePrice.appendChild(color);
+			let description = document.createElement("p");
+			description.className = "description";
+			description.innerText = `${product.description}`;
+			cart__item__content__settings.appendChild(description);
 
-		// ===================================div settings============================================
+			let p__quantity = document.createElement("p");
+			p__quantity.className = "itemQuantity";
+			p__quantity.innerText = "Qté";
+			cart__item__content__settings__quantity.appendChild(p__quantity);
 
-		let cart__item__content__settings = document.createElement("div");
-		cart__item__content__settings.className = "cart__item__content__settings";
-		cart__item__content.appendChild(cart__item__content__settings);
+			// input pour la quantité
+			let quantity = document.createElement("input");
+			quantity.id = "inputId";
+			quantity.type = "number";
+			quantity.min = "1";
+			quantity.max = "99";
+			quantity.setAttribute("value", product.number);
+			p__quantity.appendChild(quantity);
+			// ==================================div delete===============================================
 
-		// ===================================div quantity============================================
+			let cart__item__content__settings__delete = document.createElement("div");
+			cart__item__content__settings__delete.className =
+				"cart__item__content__settings__delete";
+			cart__item__content__settings.appendChild(
+				cart__item__content__settings__delete
+			);
 
-		let cart__item__content__settings__quantity = document.createElement("div");
-		cart__item__content__settings__quantity.className =
-			"cart__item__content__settings__quantity";
-		cart__item__content__settings.appendChild(
-			cart__item__content__settings__quantity
-		);
-
-		let description = document.createElement("p");
-		description.className = "description";
-		description.innerText = `${product.description}`;
-		cart__item__content__settings.appendChild(description);
-
-		let p__quantity = document.createElement("p");
-		p__quantity.className = "itemQuantity";
-		p__quantity.innerText = "Qté";
-		cart__item__content__settings__quantity.appendChild(p__quantity);
-
-		// input pour la quantité
-		let quantity = document.createElement("input");
-		quantity.id = "inputId";
-		quantity.type = "number";
-		quantity.min = "1";
-		quantity.max = "99";
-		quantity.setAttribute("value", product.number);
-		p__quantity.appendChild(quantity);
-
-		// ==================================div delete===============================================
-
-		let cart__item__content__settings__delete = document.createElement("div");
-		cart__item__content__settings__delete.className =
-			"cart__item__content__settings__delete";
-		cart__item__content__settings.appendChild(
-			cart__item__content__settings__delete
-		);
-
-		let supprimer = document.createElement("p");
-		supprimer.className = "deleteItem";
-		supprimer.innerText = "supprimer";
-		cart__item__content__settings__delete.appendChild(supprimer);
-	});
+			let supprimer = document.createElement("p");
+			supprimer.className = "deleteItem";
+			supprimer.innerText = "supprimer";
+			cart__item__content__settings__delete.appendChild(supprimer);
+		});
+	}
+	getProducts();
 }
 
-//=====================================supprimer produit============================================
-
+//=====================================supprimer produit=============================================================
 // je supprime un produit dans le panier
 const btnDelete = document.querySelectorAll(".deleteItem");
 for (let i = 0; i < btnDelete.length; i++) {
 	btnDelete[i].addEventListener("click", (e) => {
 		// e.preventDefault();
-
-		store.removeProduct(
+		removeProduct(
 			e.target.parentElement.parentElement.parentElement.parentElement.id
 		);
 		const article =
@@ -134,119 +135,50 @@ for (let i = 0; i < btnDelete.length; i++) {
 		window.location.href = "cart.html";
 	});
 }
-
-class store {
-	static getProducts() {
-		let products;
-		if (localStorage.getItem("products") === null) {
-			products = [];
-		} else {
-			products = JSON.parse(localStorage.getItem("products"));
+function removeProduct(_id) {
+	const products = JSON.parse(localStorage.getItem("products"));
+	products.forEach((product, index) => {
+		if (product._id === _id) {
+			products.splice(index, 1);
 		}
-		return products;
-	}
-
-	static addProduct(product) {
-		const products = store.getProducts();
-		products.push(product);
-		localStorage.setItem("products", JSON.stringify(products));
-	}
-
-	static removeProduct(_id) {
-		const products = store.getProducts();
-
-		products.forEach((product, index) => {
-			if (product._id === _id) {
-				products.splice(index, 1);
-			}
-		});
-		localStorage.setItem("products", JSON.stringify(products));
-	}
+	});
+	localStorage.setItem("products", JSON.stringify(products));
 }
+removeProduct();
 
-//======================================Calculer prix total et quantité==========================================
+//======================================Calculer le prix total et la quantité========================================
+function totalPrice() {
+	let totalPriceCalcul = 0;
+	let totalCount = 0;
+	let products = JSON.parse(localStorage.getItem("products"));
 
-if (localStorage.getItem("products") !== null) {
-	const products = JSON.parse(localStorage.products);
-	function prixTotal() {
-		let totalPriceCalcul = 0;
-		let totalCount = 0;
+	products.forEach((product) => {
+		totalPriceCalcul += product.price * product.number;
+		totalCount += product.number;
 
-		products.forEach((product) => {
-			product.price *= product.number;
-			totalPriceCalcul += product.price;
-			totalCount += product.number;
-
-			// ====afficher prix total=========
-			totalPrice.innerText = `${totalPriceCalcul}`;
-			// ====afficher quantité total=====
-			totalQuantity.innerText = `${totalCount}`;
-		});
-	}
-	prixTotal();
+		// ====afficher prix total=========
+		document.getElementById("totalPrice").innerText = `${totalPriceCalcul}`;
+		// ====afficher quantité total=====
+		document.getElementById("totalQuantity").innerText = `${totalCount}`;
+	});
 }
+totalPrice();
 
+//===========================choix de quantité======================================================================
 products.forEach((product) => {
 	const quantity = document.querySelectorAll("#inputId");
 	for (let i = 0; i < quantity.length; i++) {
 		quantity[i].addEventListener("change", (e) => {
 			const number = Number(e.target.value);
-			changeQuantity(products[i]._id, number);
 			products[i].number = number;
-
-			let totalPriceCalcul = 0;
-			let totalCount = 0;
-
-			products.forEach((product) => {
-				totalPriceCalcul += product.price * product.number;
-				totalCount += product.number;
-				// ====afficher prix total=========
-				totalPrice.innerText = `${totalPriceCalcul}`;
-				// ====afficher quantité total=====
-				totalQuantity.innerText = `${totalCount}`;
-			});
+			localStorage.setItem("products", JSON.stringify(products));
+			totalPrice();
 		});
 	}
-
-	function changeQuantity(_id, quantity) {
-		// products[i].quantity = quantity;
-		// const indexProduct = products.findIndex((product) => product._id === _id);
-
-		localStorage.setItem("products", JSON.stringify(products));
-	}
-
-	// function prepareIdProducts() {
-	// 	const productsI = [];
-	// 	console.log(products.length);
-	// 	products.forEach((product, i) => {
-	// 		for (let j = 0; j < products[i].number; j++) {
-	// 			console.log(products[i]._id);
-	// 			productsI.push(products[i]._id);
-	// 		}
-	// 	});
-	// 	return productsI;
-	// }
-
-	// let index = products.findIndex((elt) => elt._id === product._id);
-	// quantity.onchange = function (product) {
-	// 	totalQuantity.innerText = quantity.value;
-	// 	let newQuantity = quantity.value;
-	// 	// const newLocalStorage = [
-	// 	products[index].number = newQuantity;
-
-	// 	// products.push(products.number); // avec la nouvelle quantité souhaitée
-	// 	// ];
-
-	// 	// actualiser le localStorage avec les nouvelles données récupérées...
-	// 	// products = newLocalStorage;
-	// 	// ...en transformant les Js en Json
-	// 	localStorage.setItem("products", JSON.stringify(products));
-	// 	console.log(products[index]);
-	// };
 });
 
 /***********************************/
-//DEMANDER LES INFOS DE L'UTILISATEUR//
+//DEMANDER LES INFOS DE L'UTILISATEUR//==============================================================================
 /**********************************/
 
 // j'envoie le formulaire dans le serveur
@@ -351,15 +283,15 @@ function postForm() {
 
 		// je mets les valeurs du formulaire et les produits sélectionnés
 		// dans un objet...
-		let produits = JSON.parse(localStorage.getItem("products"));
-		let products = [];
-		produits.forEach((product) => {
-			products.push(product._id);
+		let products = JSON.parse(localStorage.getItem("products"));
+		let productsId = [];
+		products.forEach((product) => {
+			productsId.push(product._id);
 		});
 
 		const sendFormData = {
 			contact,
-			products,
+			products: productsId,
 		};
 
 		// j'envoie le formulaire + localStorage (sendFormData)
@@ -391,12 +323,12 @@ postForm();
 // // /////////////////////////////////////////////////////////
 //     // je garde les saisies dans les champs du formulaire
 //     // même après avoir changé de page
-const dataLocalStorage = localStorage.getItem("contact");
-const dataLocalStorageObjet = JSON.parse(dataLocalStorage);
-document.getElementById("firstName").value = dataLocalStorageObjet.firstName;
-document.getElementById("lastName").value = dataLocalStorageObjet.lastName;
-document.getElementById("address").value = dataLocalStorageObjet.address;
-document.getElementById("city").value = dataLocalStorageObjet.city;
-document.getElementById("email").value = dataLocalStorageObjet.email;
+// const dataLocalStorage = localStorage.getItem("contact");
+// const dataLocalStorageObjet = JSON.parse(dataLocalStorage);
+// document.getElementById("firstName").value = dataLocalStorageObjet.firstName;
+// document.getElementById("lastName").value = dataLocalStorageObjet.lastName;
+// document.getElementById("address").value = dataLocalStorageObjet.address;
+// document.getElementById("city").value = dataLocalStorageObjet.city;
+// document.getElementById("email").value = dataLocalStorageObjet.email;
 
 // // ////////////////////////////////////////////////////////
